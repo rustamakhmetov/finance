@@ -33,6 +33,9 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 gem 'rubocop', require: false
+gem 'jquery-rails'
+gem 'bootstrap-sass'
+gem 'react-rails'
 
 group :development, :test do
   gem 'rspec-rails'
