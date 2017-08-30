@@ -36,6 +36,7 @@ gem 'rubocop', require: false
 gem 'jquery-rails'
 gem 'bootstrap-sass'
 gem 'react-rails'
+gem 'responders'
 
 group :development, :test do
   gem 'rspec-rails'
