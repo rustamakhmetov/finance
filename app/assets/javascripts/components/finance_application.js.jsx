@@ -33,6 +33,10 @@ var FinanceApplication = React.createClass({
     componentDidMount() {
         $.getJSON('/api/v1/stocks.json', (response) => { this.setState({ stocks: response }) });
     },
+    handleSubmit(stock) {
+        var newState = this.state.stocks.concat(stock);
+        this.setState({ stocks: newState })
+    },
     render: function() {
         return(
             <div className="container">
@@ -42,6 +46,7 @@ var FinanceApplication = React.createClass({
                 <div className="row">
                     <Dropdown id='myDropdown'
                     options={this.state.stocks}
+                    handleSubmit={this.handleSubmit}
                     value='b'
                     onChange={dropDownOnChange}/>
                 </div>

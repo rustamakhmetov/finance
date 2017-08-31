@@ -46,14 +46,15 @@ var Dropdown = React.createClass({
         }
         return selected;
     },
-    handleClick() {
+    handleAddClick() {
         var name = this.refs.name.value;
         $.ajax({
-            url: '/api/v1/items',
+            url: '/api/v1/stocks',
             type: 'POST',
-            data: { item: { name: name, description: description } },
-            success: (item) => {
-                this.props.handleSubmit(item);
+            data: { stock: { name: name } },
+            success: (stock) => {
+                this.props.handleSubmit(stock);
+                this.setState({ selected: stock.id });
             }
         });
     },
@@ -79,7 +80,7 @@ var Dropdown = React.createClass({
                 <div className="col-md-4">
                     <div>
                         <input ref='name' id="name" placeholder='Enter new stock symbol' />
-                        <button onClick={this.handleClick}>Add</button>
+                        <button onClick={this.handleAddClick}>Add</button>
                     </div>
                 </div>
                 <div className="col-md-1">
@@ -94,7 +95,7 @@ var Dropdown = React.createClass({
             var change = {
                 oldValue: this.state.selected,
                 newValue: e.target.value
-            }
+            };
             this.props.onChange(change);
         }
         this.setState({selected: e.target.value});

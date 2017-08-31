@@ -3,9 +3,16 @@ class Api::V1::StocksController < Api::V1::BaseController
     respond_with Stock.all
   end
 
-  # def create
-  #   respond_with :api, :v1, Item.create(item_params)
-  # end
+  def create
+    stock = Stock.create(stock_params)
+    if stock.errors.empty?
+      render json: stock
+    else
+      render json: {errors: stock.errors}.to_json, status: 422
+    end
+    #respond_with :api, :v1, Stock.create(stock_params)
+    #respond_with Stock.create(stock_params)
+  end
   #
   # def destroy
   #   respond_with Item.destroy(params[:id])
@@ -21,9 +28,9 @@ class Api::V1::StocksController < Api::V1::BaseController
   #
   # end
   #
-  # private
-  #
-  # def item_params
-  #   params.require(:item).permit(:id, :name, :description)
-  # end
+  private
+
+  def stock_params
+    params.require(:stock).permit(:name)
+  end
 end
