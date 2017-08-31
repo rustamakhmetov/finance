@@ -1,4 +1,7 @@
 class Api::V1::StocksController < Api::V1::BaseController
+
+  before_action :load_stock, only: %i(destroy)
+
   def index
     respond_with Stock.all
   end
@@ -10,13 +13,12 @@ class Api::V1::StocksController < Api::V1::BaseController
     else
       render json: {errors: stock.errors}.to_json, status: 422
     end
-    #respond_with :api, :v1, Stock.create(stock_params)
-    #respond_with Stock.create(stock_params)
   end
-  #
-  # def destroy
-  #   respond_with Item.destroy(params[:id])
-  # end
+
+  def destroy
+    @stock.destroy
+    head :ok
+  end
   #
   # def update
   #   item = Item.find(params["id"])
@@ -32,5 +34,10 @@ class Api::V1::StocksController < Api::V1::BaseController
 
   def stock_params
     params.require(:stock).permit(:name)
+  end
+
+  def load_stock
+    @stock = Stock.find_by_id(params[:id])
+    raise Errors::UnprocessableEntity, "Stock not exists" unless @stock
   end
 end

@@ -77,4 +77,32 @@ describe 'Stocks API' do
       end
     end
   end
+
+  describe 'DELETE /destroy' do
+    let!(:user_params) { attributes_for(:stock) }
+    let!(:stock) { create(:stock) }
+
+    context "with valid attributes" do
+      subject { delete api_v1_stock_path(stock.id), params: { format: :json } } #id: stock.id,
+
+      it "assigns stock to the @stock" do
+        subject
+        expect(assigns(:stock).id).to eq stock.id
+      end
+
+      it "deletes stock" do
+        expect { subject }.to change(Stock, :count).by(-1)
+      end
+    end
+
+    context "with invalid attributes" do
+      context "stock not exists" do
+        it_behaves_like "returns errors" do
+          subject { delete api_v1_stock_path(100), params:  { format: :json } }
+          let!(:errors) { ["Stock not exists"] }
+          let!(:path) { "errors" }
+        end
+      end
+    end
+  end
 end

@@ -3,22 +3,13 @@ var Dropdown = React.createClass({
     propTypes: {
         id: React.PropTypes.string.isRequired,
         options: React.PropTypes.array.isRequired,
-        value: React.PropTypes.oneOfType(
-            [
-                React.PropTypes.number,
-                React.PropTypes.string
-            ]
-        ),
         valueField: React.PropTypes.string,
-        labelField: React.PropTypes.string,
         onChange: React.PropTypes.func
     },
 
     getDefaultProps: function() {
         return {
-            value: null,
-            valueField: 'value',
-            labelField: 'label',
+            valueField: 'id',
             onChange: null
         };
     },
@@ -39,7 +30,7 @@ var Dropdown = React.createClass({
 
     getSelectedFromProps(props) {
         var selected;
-        if (props.value === null && props.options.length !== 0) {
+        if (props.value === undefined && props.options.length !== 0) {
             selected = props.options[0][props.valueField];
         } else {
             selected = props.value;
@@ -55,6 +46,16 @@ var Dropdown = React.createClass({
             success: (stock) => {
                 this.props.handleSubmit(stock);
                 this.setState({ selected: stock.id });
+            }
+        });
+    },
+    handleDelClick() {
+        id = this.state.selected;
+        $.ajax({
+            url: '/api/v1/stocks/'+id,
+            type: 'DELETE',
+            success: () => {
+                this.props.handleDelete();
             }
         });
     },
@@ -84,20 +85,20 @@ var Dropdown = React.createClass({
                     </div>
                 </div>
                 <div className="col-md-1">
-                    <button>Del</button>
+                    <button onClick={this.handleDelClick}>Del</button>
                 </div>
             </div>
         )
     },
 
     handleChange: function(e) {
-        if (this.props.onChange) {
-            var change = {
-                oldValue: this.state.selected,
-                newValue: e.target.value
-            };
-            this.props.onChange(change);
-        }
+        // if (this.props.onChange) {
+        //     var change = {
+        //         oldValue: this.state.selected,
+        //         newValue: e.target.value
+        //     };
+        //     this.props.onChange(change);
+        // }
         this.setState({selected: e.target.value});
     }
 
