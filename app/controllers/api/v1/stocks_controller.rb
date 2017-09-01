@@ -1,6 +1,6 @@
 class Api::V1::StocksController < Api::V1::BaseController
 
-  before_action :load_stock, only: %i(destroy)
+  before_action :load_stock, only: %i(destroy reload)
 
   def index
     respond_with Stock.all
@@ -18,6 +18,10 @@ class Api::V1::StocksController < Api::V1::BaseController
   def destroy
     @stock.destroy
     head :ok
+  end
+
+  def reload
+    render json: {url: Service.authorization_url}.to_json
   end
   #
   # def update

@@ -44,8 +44,13 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Adds support for Capybara system testing and selenium driver
+
   gem 'capybara', '~> 2.13'
   gem 'capybara-webkit'
+
+  # gem 'capybara', '< 2.15.0'
+  # gem 'capybara-webkit', git: "https://github.com/thoughtbot/capybara-webkit.git"
+
   gem 'database_cleaner'
   gem 'capybara-email'
 end

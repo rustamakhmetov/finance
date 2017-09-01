@@ -105,4 +105,33 @@ describe 'Stocks API' do
       end
     end
   end
+
+  describe 'GET /reload' do
+    let!(:user_params) { attributes_for(:stock) }
+    let!(:stock) { create(:stock) }
+
+    context "with valid attributes" do
+      subject { get reload_api_v1_stock_path(stock.id), params: { format: :json } }
+
+      it "assigns stock to the @stock" do
+        subject
+        expect(assigns(:stock).id).to eq stock.id
+      end
+
+      it "returns url containing consumer_key" do
+        subject
+        expect(response.body).to include_json(Service.authorization_url.to_json)
+      end
+    end
+
+    context "with invalid attributes" do
+      context "stock not exists" do
+        it_behaves_like "returns errors" do
+          subject { get reload_api_v1_stock_path(100), params:  { format: :json } }
+          let!(:errors) { ["Stock not exists"] }
+          let!(:path) { "errors" }
+        end
+      end
+    end
+  end
 end

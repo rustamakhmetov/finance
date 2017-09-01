@@ -15,6 +15,9 @@ var FinanceApplication = React.createClass({
     handleDelete() {
         this.getStocks();
     },
+    handleUpdate(id) {
+        console.log("update quotes");
+    },
     render: function() {
         return(
             <div className="container">
@@ -26,6 +29,7 @@ var FinanceApplication = React.createClass({
                     options={this.state.stocks}
                     handleSubmit={this.handleSubmit}
                     handleDelete={this.handleDelete}
+                    handleUpdate={this.handleUpdate}
                     valueField='id'
                     />
                 </div>

@@ -59,6 +59,16 @@ var Dropdown = React.createClass({
             }
         });
     },
+    handleUpdateClick() {
+        id = this.state.selected;
+        $.ajax({
+            url: '/api/v1/stocks/'+id+'/update',
+            type: 'GET',
+            success: () => {
+                this.props.handleUpdate();
+            }
+        });
+    },
     render: function() {
         var self = this;
         var options = self.props.options.map(function(option) {
@@ -86,6 +96,9 @@ var Dropdown = React.createClass({
                 </div>
                 <div className="col-md-1">
                     <button onClick={this.handleDelClick}>Del</button>
+                </div>
+                <div className="col-md-1">
+                    <button onClick={this.handleUpdateClick}>Update</button>
                 </div>
             </div>
         )
